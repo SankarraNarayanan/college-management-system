@@ -7,10 +7,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
 public class DepartmentRepository {
 	
 	Connection con =null;
@@ -27,117 +23,192 @@ public class DepartmentRepository {
 		 } 
 		
 	}
-	public List<String> getDepartment() {
-		List<String> departments = new ArrayList<>();
-		try {
-		Statement stmt=con.createStatement();  
-		ResultSet rs=stmt.executeQuery("select department from user");  
-		while(rs.next())  
-		{
-			Department d1 = new Department();
-			if(rs.getString(1)!=null)
-			{
-			if(!departments.contains(rs.getString(1)))
-				departments.add(rs.getString(1));
-			}
-		}
-		con.close();  
-		}
-		catch (Exception e) {
-			System.out.println(e);
-		}
+	
+	public void createTeacher( String tid, String name,  String password) {
 		
-		return departments;
-	}
-	public String createTeacher( int college_id, Teacher t1) {
-		System.out.println(college_id);
-		String s = "";
+		
 		try {
-			PreparedStatement stmt=con.prepareStatement("insert into user (college_id, name, username, "
-					+ "password, is_teacher, department) values(?, ?, ?, ?, ?, ?)"); 
-			stmt.setInt(1, college_id);
-			stmt.setString(2, t1.getName());
-			stmt.setString(3, t1.getUsername());
-			stmt.setString(4,t1.getPassword());
-			stmt.setInt(5, t1.getIs_teacher());
-			stmt.setString(6, t1.getDepartment());
+			PreparedStatement stmt=con.prepareStatement("insert into teachers (t_id, name, password) values(?, ?, ?)"); 
+			
+			stmt.setString(1, tid);
+			stmt.setString(2, name);
+			stmt.setString(3,password);
+			
+			
 			stmt.executeUpdate();
-			s="inserted into db successfully";
 			con.close();  
 			}
 			catch (Exception e) {
-				s="college not found";
 				System.out.println(e);
 			}
-		return s;
+		
 	}
 	
-	public List<String> viewteacher(int college_id) {
-		System.out.print(college_id);
-		List<String> teachers = new ArrayList<>();
+	
+	
+	
+	public void createCourse(String courseid, String coursename, int semester, String department) {
+		System.out.println(department);
 		try {
-		PreparedStatement stmt=con.prepareStatement("select name from user where(college_id=? AND is_teacher=1)");  
-		stmt.setInt(1, college_id);
-		ResultSet rs=stmt.executeQuery();  
+			PreparedStatement stmt=con.prepareStatement("insert into courses (course_id, course_name,semester,department) values(?, ?,?, ?)"); 
+			
+			stmt.setString(1, courseid);
+			stmt.setString(2, coursename);
+			stmt.setInt(3,semester);
+			stmt.setString(4, department);
+			
+			stmt.executeUpdate();
+			con.close();  
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+		
+	}
+	public List<Courses> getCourse() {
+		List<Courses> courses = new ArrayList<>();
+		try {
+		Statement stmt=con.createStatement();  
+		ResultSet rs=stmt.executeQuery("SELECT course_id, course_name, semester,department \n"
+				+ "FROM courses\n"
+				+ "where course_id NOT IN (SELECT DISTINCT course_id FROM staffs_assigned); ");  
 		while(rs.next())  
 		{
-			if(!teachers.contains(rs.getString(1)))
-				teachers.add(rs.getString(1));
+			//System.out.println(rs.getString(3));
+			Courses c1 = new Courses();
+			c1.setCourse_id(rs.getString(1));
+			c1.setCourse_name(rs.getString(2));
+			c1.setSemester(rs.getInt(3));
+			c1.setDepartment(rs.getString(4));
+			courses.add(c1);
 		}
 		con.close();  
 		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
 		
-		catch (Exception e) {
-			
-			System.out.println(e);
-		}
-		if(teachers.size()==0)
-		{
-			teachers.add("no teachers under the college found");
-		}
-		return teachers;
+		return courses;
 	}
-	public String addpayroll(String username, Payroll p1) 
-	{
-		String res = "";
+	public void addDept(String department) {
+
 		try {
-			PreparedStatement stmt1=con.prepareStatement("select is_teacher from user where username=?");  
-			stmt1.setString(1,username);
-			ResultSet rs1=stmt1.executeQuery();  
-			while(rs1.next())
-			{
-				if(rs1.getInt(1)==1)
-				{
-				  res = addPayroll(username,  p1);
-				}
-			}
-			con.close();
-		}
-		catch (Exception e) {
+			PreparedStatement stmt=con.prepareStatement("insert into department (department_name) values(?)"); 
 			
-			System.out.println(e);
-		}
-		return res;
-	}
-	public String addPayroll(String username , Payroll p1)
-	{
-		String s="";
-		try
-		{
-			PreparedStatement stmt=con.prepareStatement("insert into payroll ( username, "
-					+ "allowance, deduction, net_salary) values(?, ?, ?, ?)"); 
-			stmt.setString(1, username);
-			stmt.setInt(2, p1.getAllowance());
-			stmt.setInt(3, p1.getDeduction());
-			stmt.setInt(4, (p1.getNetsalary() + p1.getAllowance())- p1.getDeduction());
+			
+			stmt.setString(1,department);
+			
+			
 			stmt.executeUpdate();
-			s="payroll added successfully";
 			con.close();  
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+	}
+	public List<Department> getDept() {
+		List<Department> dept = new ArrayList<>();
+		try {
+		Statement stmt=con.createStatement();  
+		ResultSet rs=stmt.executeQuery("select * from department");  
+		while(rs.next())  
+		{
+			//System.out.println(rs.getString(3));
+			Department d1 = new Department();
+			d1.setDepartment(rs.getString(1));
+			dept.add(d1);
+		}
+		con.close();  
 		}
 		catch (Exception e) {
-			s="duplicates found";
 			System.out.println(e);
 		}
-		return s;
+		
+		return dept;
 	}
+	public void delDept(String department) {
+		try {
+			PreparedStatement stmt=con.prepareStatement("delete from department where department_name=?"); 
+			
+			
+			stmt.setString(1,department);
+			
+			
+			stmt.executeUpdate();
+			con.close();  
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+	}
+	
+	public void assignTeacher(String tid, String department, int sem, String course, String courseid,String section) {
+		try {
+			PreparedStatement stmt=con.prepareStatement("insert into staffs_assigned (t_id,course_id,course_name,semester,department,section) values(?,?,?,?,?,?)"); 
+			stmt.setString(1,tid);
+			stmt.setString(2, courseid);
+			stmt.setString(3, course);
+			stmt.setInt(4, sem);
+			stmt.setString(5, department);
+			stmt.setString(6, section);
+			stmt.executeUpdate();
+			
+			
+			con.close();  
+			}
+			catch (Exception e) {
+				System.out.println(e);
+			}
+	}
+	public List<Teacher> get_assigned_teacher() {
+		List<Teacher> assigned_teachers = new ArrayList<>();
+		try {
+		Statement stmt=con.createStatement();  
+		ResultSet rs=stmt.executeQuery("SELECT teachers.t_id, teachers.name, staffs_assigned.course_name,staffs_assigned.semester,staffs_assigned.department\n"
+				+ "FROM teachers\n"
+				+ "INNER JOIN staffs_assigned ON teachers.t_id = staffs_assigned.t_id;");  
+		while(rs.next())  
+		{
+			//System.out.println(rs.getString(3));
+			Teacher t1 = new Teacher();
+			t1.setTid(rs.getString(1));
+			t1.setName(rs.getString(2));
+			t1.setCourse_name(rs.getString(3));
+			t1.setSemester(rs.getInt(4));
+			t1.setDepartment(rs.getString(5));
+			
+			assigned_teachers.add(t1);
+		}
+		con.close();  
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return assigned_teachers;
+	}
+
+	public List<Teacher> get_all_teacher() {
+		List<Teacher> assigned_teachers = new ArrayList<>();
+		try {
+		Statement stmt=con.createStatement();  
+		ResultSet rs=stmt.executeQuery("SELECT t_id,name from teachers WHERE t_id NOT IN (SELECT DISTINCT t_id FROM staffs_assigned)");  
+		while(rs.next())  
+		{
+			//System.out.println(rs.getString(3));
+			Teacher t1 = new Teacher();
+			t1.setTid(rs.getString(1));
+			t1.setName(rs.getString(2));
+			
+			assigned_teachers.add(t1);
+		}
+		con.close();  
+		}
+		catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return assigned_teachers;
+	}
+	
 }

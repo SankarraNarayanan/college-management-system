@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+	</script>
+	<script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+	</script>
+	<script src="main.js"></script>
+</head>
+
+<body onload="checkLoginCookie();">
+<script type="text/javascript">
+function funCall()
+{
+	document.getElementById("login").addEventListener("click", function(){
+ 			document.querySelector(".popup").style.display = "flex";
+ 		})
+ 		
+ 		document.querySelector(".close").addEventListener("click", function(){
+ 			document.querySelector(".popup").style.display = "none";
+ 		})
+}
+
+function checkLoginCookie() {
+	var x = document.cookie;
+	cookiearray = x.split(';');
+    
+    for(var i=0; i<cookiearray.length; i++) {
+   
+       name = cookiearray[i].split('=')[0];
+       value = cookiearray[i].split('=')[1];
+       if(name=="lastVisited")
+    	   {
+    	   //if(value=="admin"){window.location = "http://localhost:8080/collegemanagement/ManagementHomepage.html";}
+    	    if(value=="teacher"){window.location = "http://localhost:8080/collegemanagement/TeacherHomepage.html";}
+    	   else if(value=="student"){window.location = "http://localhost:8080/collegemanagement/StudentHomepage.html";}
+    	   }
+       }       
+    }
+    
+</script>
+	<div id="navBar"  style="clear: both;">
+	<nav class="navbar navbar-expand-sm bg-light">
+	<h4 style="font-family: monospace;">C M S</h4>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item" ><a  class="nav-link" id="login" href="#" onclick="funCall()">Login</a></li>
+		</ul>
+		</nav>
+	</div>
+	<div id="welcome">
+		<div id="img-container"><img alt="" src="clg.png" width="950" height="700" ></div>
+		<div id="note">
+			<h3 style="font-size: 60px;">Welcome</h3>
+			<hr size="8" width="100%" color="green"> 
+			<div id="join-tab" align="center">
+				<p style="font-size: 50px;">Join with us</p>
+				<p style="font-size: 60px; color: green;">To</p>
+				<p style="font-size: 50px; color: green;">Enjoy Better Platform</p>
+			</div>
+		</div>  
+	</div>
+	<div class="popup">
+		<div class="popup-content">
+		    <img alt="" src="close.jpg" class="close">
+			<form action="webapi/user/if_u" method="post">
+				<input class="col-sm-15 col-form-label" type="text" placeholder="Username" id="userName" name="username" required="required">
+				<input class="col-sm-15 col-form-label" type="password" placeholder="Password" id="passWord" name="password" required="required"><br>
+				<input type="submit" class="btn btn-primary mb-2" value="login">
+			</form>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	const api_url = "/collegemanagement/webapi/user/if_u";
+	
+	getUser = async () => {
+	    
+	    const settings = {
+	        method: 'POST',
+	        headers: {
+	            Accept: 'application/json',
+	            'Content-Type': 'application/json',
+	        }
+	    };
+	    try {
+	        const fetchResponse = await fetch(`/collegemanagement/webapi/user/if_u`, settings);
+	        const data = await fetchResponse.json();
+	        console.log(data);
+	        return data;
+	    } catch (e) {
+	        return e;
+	    }    
+
+	}
+	</script>
+</body>
+</html>

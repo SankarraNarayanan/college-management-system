@@ -3,6 +3,7 @@ package com.college.collegemanagement;
 import java.net.URISyntaxException;
 import java.util.List;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -19,28 +20,57 @@ public class AdminResource {
 	
 	@POST
 	@Path("addmanagement")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String addManagement(Management m1)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response addManagement(@FormParam("collegeid") String collegeid, 
+            @FormParam("collegename") String collegename,
+            @FormParam("username") String username,
+            @FormParam("password") String password,
+            @FormParam("location") String location
+			) throws URISyntaxException
 	{
-		repo.createManagement(m1);
-		if(m1!=null) return "succesfully added";
-		
-		return "failed to add";
-		
+		int collegeId=Integer.parseInt(collegeid);
+		String res = repo.createManagement(collegeId,collegename,username,password,
+			location);
+		java.net.URI reslocation = new java.net.URI("http://localhost:8080/collegemanagement/AdminHomepage.html");
+		return Response.temporaryRedirect(reslocation).build();
 	}
 	
 	@GET
 	@Path("managements")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<String> viewmanagement()
+	public List<Management> viewmanagement()
 	{
-		List<String> managements = repo.viewmanagement();
-		if(managements.size()>0)
+			
+			return repo.viewmanagement();
+
+	}	
+	
+	@POST
+	@Path("delete")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response delete(@FormParam("collegeid") String collegeid,@FormParam("edit") String editaction,
+			@FormParam("delete") String deleteaction,@FormParam("collegename") String collegename,
+			@FormParam("location") String location)throws URISyntaxException
+	{
+		java.net.URI reslocation = new java.net.URI("http://localhost:8080/collegemanagement/AdminHomepage.html");
+		int Cid = Integer.parseInt(collegeid);
+		System.out.println(Cid);
+		System.out.println(editaction+" "+deleteaction+" "+collegename+" "+location);
+		
+		if(editaction!=null)
 		{
-			return managements;
+			System.out.println("wel");
+			repo.editmanagement(Cid,collegename,location);
+		}
+		else
+		{
+			if(deleteaction!=null)
+			{
+				repo.deletemanagement(Cid);
+			}
 		}
 		
-		managements.add("No Managements found");
-		return managements;
-	}	
+		return Response.temporaryRedirect(reslocation).build();
+	}
 }

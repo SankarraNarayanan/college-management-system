@@ -1,44 +1,29 @@
 package com.college.collegemanagement;
 
 public class Teacher {
-	private int college_id;
-	private String name,username,password,department;
-	private int is_teacher;
-	
+	private String tid,name,course_name,department,section;
+	private int semester;
 	public Teacher()
 	{
 		
 	}
-	public int getCollege_id() {
-		return college_id;
+	public String getTid() {
+		return tid;
 	}
-	public void setCollege_id(int college_id) {
-		this.college_id = college_id;
+	public void setTid(String tid) {
+		this.tid = tid;
 	}
-	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getUsername() {
-		return username;
+	public String getCourse_name() {
+		return course_name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public int getIs_teacher() {
-		return is_teacher;
-	}
-	public void setIs_teacher(int is_teacher) {
-		this.is_teacher = is_teacher;
+	public void setCourse_name(String course_name) {
+		this.course_name = course_name;
 	}
 	public String getDepartment() {
 		return department;
@@ -46,7 +31,17 @@ public class Teacher {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	
-	
+	public String getSection() {
+		return section;
+	}
+	public void setSection(String section) {
+		this.section = section;
+	}
+	public int getSemester() {
+		return semester;
+	}
+	public void setSemester(int semester) {
+		this.semester = semester;
+	}
 	
 }

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body onload="setCookie();">
+<script type="text/javascript">
+function setCookie() {
+	var cname="username";
+	var cvalue = window.location.href;
+	var exdays = 30;
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires=" + d.toGMTString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  //window.location = "http://localhost:8080/collegemanagement/cms/institution.html";
+}
+</script>
+<form action="addteacher.html"><button type="submit"  class="btn btn-primary">add teacher</button></form>
+<form action="assignteacher.html"><button  type="submit" class="btn btn-primary">assign teacher</button></form>
+<form action="addcourses.html"><button type="submit"  class="btn btn-primary">add courses</button></form>
+
+<button type="button"  class="btn btn-primary" onclick="deleteCookie();">logout</button>
+<script type="text/javascript">
+function deleteCookie()
+{
+	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";	
+	window.location = "http://localhost:8080/collegemanagement/cms/login.html";
+}
+</script>
+</body>
+</html>	

@@ -1,10 +1,207 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+	</script>
+	<script src=
+"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js">
+	</script>
+	<script src=
+"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js">
+	</script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+
+#navBar {
+  border-radius: 2px;
+  box-shadow: 0px 1px 10px #999;
+}
+#assigned-content
+{
+ margin-top: 10%;
+      margin-left: 20%;
+      margin-right: 20%;
+     
+      
+      height: 30%;
+}
+.search-assignment
+{
+ 	 margin-left: 30%;
+      width: 350px;
+      height: 30%;
+}
+#resetpassword
+	{
+	margin-top: 2%;
+	margin-right: 10%;
+	}
+	.respass
+	{
+	width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background: #f5f5f0;
+		border-radius: 2px;
+	}
+	.popup-content
+	{
+		height: 550px;
+		width: 500px;
+		background: #f3ffd1;
+		padding: 20px;
+		border-radius: 5px;
+		box-shadow: 0px 0px 20px #999;
+		position: relative;
+	}
+	.close7
+	{
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	background: #fff;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+	cursor: pointer;
+	}
+</style>
 </head>
-<body>
-<h1>student</h1>
+<body onload="getCourses();">
+<script type="text/javascript">
+
+function deleteCookie()
+{
+	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";	
+	document.cookie = "lastVisited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";	
+	window.location = "http://localhost:8080/collegemanagement/";
+}
+function resetpassword()
+{
+	document.getElementById("resetpassword").addEventListener("click", function(){
+			document.querySelector(".respass").style.display = "flex";
+		})
+		
+		document.querySelector(".close7").addEventListener("click", function(){
+			document.querySelector(".respass").style.display = "none";
+		})
+		
+		
+}
+</script>
+<div id="navBar"  style="clear: both;">
+	<nav class="navbar navbar-expand-sm bg-light">
+	<h4 style="font-family: monospace;">C M S</h4>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item" ><a  class="nav-link" id="login" href="#" onclick="deleteCookie();">Logout</a></li>
+		</ul>
+		</nav>
+	</div>
+	<button id="resetpassword" type="button" class="btn btn-primary float-right" onclick="resetpassword();">Reset Password</button>
+	
+	<div class="respass">
+		<div class="popup-content">
+		    <img alt="" src="close.jpg" class="close7">
+			<form action="webapi/student/reset" method="post">
+				<label for="wid">New Password</label>
+	  			<input type="text" class="form-control"name="password" id="password" placeholder="Enter new Password">
+	  			<br>
+			   <button type="submit" class="btn btn-primary">Update</button>
+		  </form>
+		</div>
+	</div>
+  <div id="assigned-content" class="border border-info rounded">
+	<h3>Enrolled Subjects</h3>
+	<table class="table table-bordered rounded border border-success">
+				<thead class="table table-bordered border-success">
+				  <tr class="table  table-bordered border-success">
+					<th scope="col">t_id</th>
+					<th scope="col">course_id</th>
+					<th scope="col">course_name</th>
+				  </tr>
+				</thead>
+				<tbody id="course-content">
+				  
+				</tbody>
+			  </table>
+			  <div class="search-assignment">
+			<form name="assignmentsearch" class="search">
+			
+			  <input type="text" class="form-control" id="courseid" placeholder="Enter courseID to search">
+			  <button type="button" class="btn btn-primary" onclick="getAssignments();">search</button>
+			</form>
+			</div>
+			<br><br>
+	<h3>Assignments for You</h3>
+	<table class="table table-bordered border-success" style="border-color: black;">
+				<thead class="table table-bordered border-success">
+				  <tr>
+					<th scope="col">Title</th>
+					<th scope="col">description</th>
+					<th scope="col">Duedate</th>
+				  </tr>
+				</thead>
+				<tbody id="assignment-content">
+				  
+				</tbody>
+			  </table>
+	</div>
+	
+<script type="text/javascript">
+
+async function getCourses()
+{
+	const api_url = "/collegemanagement/webapi/student/courses";
+	var table = document.getElementById('course-content');
+	const response = await fetch(api_url);
+	const data = await response.json();
+	console.log(data);
+		for(var i=0; i<data.length;i++)
+			{
+			      var row = `<tr>
+						<td>${data[i].t_id}</td>
+						<td>${data[i].course_id}</td>
+						<td>${data[i].course_name}</td>
+						
+						</tr>`
+			      table.innerHTML +=row
+			     
+			}
+		
+}
+
+async function getAssignments()
+{
+	var x = document.forms["assignmentsearch"]["courseid"].value;
+	const api_url = "/collegemanagement/webapi/student/assignments/"+x;
+	$("#assignment-content").empty();
+	var table = document.getElementById('assignment-content');
+	const response = await fetch(api_url);
+	const data = await response.json();
+	
+	console.log(data);
+		for(var i=0; i<data.length;i++)
+			{
+			      var row = `<tr>
+						<td>${data[i].title}</td>
+						<td>${data[i].description}</td>
+						<td>${data[i].date}</td>						
+						</tr>`
+			      table.innerHTML +=row
+			     
+			}
+}
+</script>
 </body>
 </html>

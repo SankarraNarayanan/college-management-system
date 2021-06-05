@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to display a random number between 1 and 10.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+var count = 0;
+
+var pressed=0;
+function myFunction() {
+
+	myVar = setInterval(call, 2000);
+  	
+}
+function call() {
+	
+  var x = Math.floor((Math.random() * 10));
+  document.getElementById("demo").innerHTML = x;
+  window.addEventListener('keydown', e=> {
+	const keyname = e.key;   
+	if(keyname==x)
+	   {
+		   count++;
+		   document.querySelector('p').innerHTML = `You pressed ${keyname} ${count}`;
+	   }
+	});
+  
+  
+  
+
+  
+  
+}
+function myStopFunction() {
+  clearInterval(myVar);
+}
+</script>
+<p>[Press any key]</p>
+</body>
+</html>

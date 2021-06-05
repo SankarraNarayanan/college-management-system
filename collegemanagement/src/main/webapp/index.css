@@ -1,0 +1,79 @@
+@charset "UTF-8";
+
+
+#navBar {
+  border-radius: 2px;
+  box-shadow: 0px 1px 10px #999;
+}
+ 
+      
+ #welcome
+ {
+ width:100%;
+margin : 0;
+ }
+ 
+ #img-container {
+ 		width:50%;
+		margin : 0;
+		float: left;
+ 		margin-top: 6%;
+ 		left: 5%;
+}
+
+#note
+{
+width:50%;
+margin : 0;
+margin-top: 10%;
+float : left ;
+font-family: cursive;
+}
+
+.popup
+{
+	background: rgba(0,0,0,0.6);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.popup-content
+{
+	height: 250px;
+	width: 500px;
+	background: #fff;
+	padding: 20px;
+	border-radius: 5px;
+	position: relative;
+}
+
+form input{
+	margin: 20px auto;
+	display: block;
+	width: 50%;
+	padding: 8px;
+	border: 1px solid gray;
+}
+
+.close
+{
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	background: #fff;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+	cursor: pointer;
+}
+
+
+
+

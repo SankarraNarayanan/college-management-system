@@ -1,0 +1,474 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>    
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+ 
+<style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .sticky-example {
+        width:15%;
+		height: 100%;
+		margin : 0;
+		top: 0;
+		background-color: #f7ffc7;
+		float : left ;
+		font-family: cursive;
+      }
+      
+	input
+	{
+	  font-weight: bolder;
+	}
+	.addteacher, .assignteacher, .addcourses, .add-department
+	{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		display: none;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background: #f5f5f0;
+		border-radius: 2px;
+		
+	}
+	.buttons
+	{
+	    width: 100%;
+		height:50px;
+		position: absolute;
+		top: 5%;
+		display: block;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		background: #f5f5f0;
+		border-radius: 2px;
+	}
+	.popup-content
+	{
+		height: 550px;
+		width: 500px;
+		background: #f3ffd1;
+		padding: 20px;
+		border-radius: 5px;
+		box-shadow: 0px 0px 20px #999;
+		position: relative;
+	}
+	#add
+	{
+	
+		margin-right: -40%;
+		margin-top: 2%;
+	}
+	#assign
+	{
+		margin-right: -30%;
+		margin-top: 2%;
+	}
+	#addcourse
+	{
+	
+	  margin-right: -20%;
+		margin-top: 2%;
+	}
+	#adddepartment
+	{
+	  
+	  margin-right: 40%;
+		margin-top: 2%;
+	}
+	label
+	{
+	    float: left;
+	}
+	.viewteacher
+	{
+	 margin-left: 10%;
+	 margin-right: 10%;
+	 margin-top: 10%;
+	}
+	.deletemanagement
+	{
+		width:50%;
+		margin : 0;
+		margin-top: 10%;
+		margin-left: 10%;
+		float : left ;
+		font-family: cursive;
+		display: none;
+		background-color: #f7ffc7;
+	}
+	.close, .close1, .close2, .close3
+{
+	position: absolute;
+	top: -15px;
+	right: -15px;
+	background: #fff;
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	box-shadow: 6px 6px 29px -4px rgba(0,0,0,0.75);
+	cursor: pointer;
+}
+	#check
+	{
+	  margin-left: 1%;
+	}
+	#select-department
+	{
+	   float:right;
+	  margin-right: 30%;
+		margin-top: 2%;
+	}
+	
+
+	
+</style>
+</head>
+ <body onload="start();">
+
+<script type="text/javascript">
+
+function deleteCookie()
+{
+	document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";	
+	document.cookie = "lastVisited=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";	
+	window.location = "http://localhost:8080/collegemanagement/";
+}
+
+</script>
+ <script type="text/javascript">
+ function funcall()
+ {
+ 	document.getElementById("add").addEventListener("click", function(){
+ 			document.querySelector(".addteacher").style.display = "flex";
+ 		})
+ 		
+ 		document.querySelector(".close").addEventListener("click", function(){
+ 			document.querySelector(".addteacher").style.display = "none";
+ 		})
+ 		
+ 		
+ }
+ function assignteacher()
+ {
+ 	document.getElementById("assign").addEventListener("click", function(){
+ 			document.querySelector(".assignteacher").style.display = "flex";
+ 		})
+ 		
+ 		document.querySelector(".close1").addEventListener("click", function(){
+ 			document.querySelector(".assignteacher").style.display = "none";
+ 		})
+ 		
+ 		
+ 		
+ }
+ function addcourse()
+ {
+ 	document.getElementById("addcourse").addEventListener("click", function(){
+ 			document.querySelector(".addcourses").style.display = "flex";
+ 		})
+ 		
+ 		document.querySelector(".close2").addEventListener("click", function(){
+ 			document.querySelector(".addcourses").style.display = "none";
+ 		})
+ 		
+ 		
+ }
+ function adddepartment()
+ {
+ 	document.getElementById("adddepartment").addEventListener("click", function(){
+ 			document.querySelector(".add-department").style.display = "flex";
+ 		})
+ 		
+ 		document.querySelector(".close3").addEventListener("click", function(){
+ 			document.querySelector(".add-department").style.display = "none";
+ 		})
+ 		
+ 		
+ }
+ </script>
+ 
+ <div id="navBar"  style="clear: both;">
+		<nav class="navbar navbar-expand-sm bg-light">
+		<h4 style="font-family: monospace;">C M S</h4>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item" ><a  class="nav-link" id="logout" href="index.html" onclick="deleteCookie();">Logout</a></li>
+			</ul>
+			</nav>
+	</div>
+	 <button id="adddepartment" type="button" class="btn btn-primary float-right" onclick="adddepartment();">Add Department</button>
+	  <button id="addcourse" type="button" class="btn btn-primary float-right" onclick="addcourse();">Add courses</button>
+	   <button id="add" type="button" class="btn btn-primary float-right" onclick="funcall();">Add Teacher</button>
+	    <button id="assign" type="button" class="btn btn-primary float-right" onclick="assignteacher();">Assign Teacher </button>
+	<div class="add-department">
+		<div class="popup-content">
+		<img alt="" src="close.jpg" class="close3">
+			<form action="webapi/management/deletedepartment" method="post">
+				<select id="dept" name="department" class="form-select" multiple aria-label="multiple select example">
+				  
+				</select>
+				<br>
+				<button  type="submit" class="btn btn-danger">delete</button>
+			</form>
+			<br><br><br>
+			<form action="webapi/management/adddepartment" method="post">
+				<label for="department">Department</label>
+			  <input type="text" class="form-control" name="department" placeholder="Enter department to add">
+			  <br>
+				<button  type="submit" class="btn btn-success ">Add</button>
+			</form>
+		</div>
+	</div>
+	
+	
+	<div class="addteacher">
+		<div class="popup-content">
+		    <img alt="" src="close.jpg" class="close">
+			<form action="webapi/management/addteacher" method="post">
+			
+			  <label for="collegeid">Instructor ID</label>
+			  <input type="text" class="form-control" name="tid" placeholder="Enter rollno">
+			  <br>
+			  <label for="name">Name</label>
+			  <input type="text" class="form-control" name="name" placeholder="Enter Name">
+			  <br>
+			  
+			  <label for="password">Password</label>
+			  <input type="password" class="form-control" name="password" placeholder="Password">
+			  <br>
+			  
+			  <button type="submit" class="btn btn-primary">Submit</button>
+		  </form>
+		</div>
+	</div>
+	<div class="addcourses">
+		<div class="popup-content">
+		    <img alt="" src="close.jpg" class="close2">
+			<form action="webapi/management/addcourse" method="post">
+			
+			  <label for="collegeid">Course ID</label>
+			  <input type="text" class="form-control" name="courseid" placeholder="Enter course_id">
+			  <br>
+			  <label for="name">Course Name</label>
+			  <input type="text" class="form-control" name="coursename" placeholder="Enter CourseName">
+			  <br>
+			  <label for="name">Semester</label>
+			  <input type="text" class="form-control" name="semester" placeholder="Enter Semester">
+			  <br>
+			  <label for="name">Department</label>
+			  <select id="select-dept" name="select-department" class="form-select" multiple aria-label="multiple select example">
+				  
+				</select>
+			  <br>
+			  
+			  
+			  <button type="submit" class="btn btn-primary">Submit</button>
+		  </form>
+		</div>
+	</div>
+	
+	<div class="assignteacher">
+		<div class="popup-content">
+		    <img alt="" src="close.jpg" class="close1">
+		    
+			<form action="webapi/management/assignteacher" method="post">
+			
+			  <label for="collegeid">Instructor ID</label>
+			  <input type="text" class="form-control" name="tid" placeholder="Enter rollno">
+			  <br>
+			  <select id="department-content" class="form-select form-select-sm" name="department" aria-label=".form-select-sm example">
+			  <option  selected>Select department</option>
+			  </select>
+			  <br>
+			  <select id="semester-content" class="form-select form-select-sm" name="semester" aria-label=".form-select-sm example">
+			  <option  selected>Select semester</option>
+			 </select>
+			  <br>
+			  <select id="course-content" class="form-select form-select-sm" name="course" aria-label=".form-select-sm example">
+			  <option  selected>Select course</option>
+			 </select>
+			  <br>
+			  <select id="courseid-content" class="form-select form-select-sm" name="courseid" aria-label=".form-select-sm example">
+			  <option  selected>Select courseid</option>
+			 </select>
+			  <br>
+			  
+			  <button type="submit" class="btn btn-primary">Assign</button>
+		  </form>
+		</div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	
+    <div class="viewteacher" >
+		<label><h3> Assigned Staffs</h3></label>
+		<table class="table table-bordered border-success" style="border-color: black;">
+				<thead class="table table-bordered border-success">
+				  <tr>
+					<th scope="col">Teacher id</th>
+					<th scope="col">name</th>
+					<th scope="col">Course Name</th>
+					<th scope="col">Semester</th>
+					<th scope="col">Department</th>
+					
+				  </tr>
+				</thead>
+				<tbody id="content">
+				  
+				</tbody>
+			  </table>
+			  
+	     <label><h3>Not Assigned Staffs</h3></label>
+		<table class="table table-bordered border-success" style="border-color: black;">
+				<thead class="table table-bordered border-success">
+				  <tr>
+					<th scope="col">Teacher id</th>
+					<th scope="col">name</th>
+					</tr>
+				</thead>
+				<tbody id="content1">
+				  
+				</tbody>
+			  </table>
+		</div>
+		<script type="text/javascript">
+			
+			
+			async function getCourses()
+			{
+				const api_url = "/collegemanagement/webapi/management/getcourses";
+				var table = document.getElementById('course-content');
+				
+				var table1 = document.getElementById('department-content');
+				var table2 = document.getElementById('semester-content');
+				var table3 = document.getElementById('courseid-content');
+				const response = await fetch(api_url);
+				const data = await response.json();
+				console.log(data);
+					for(var i=0; i<data.length;i++)
+						{
+						      var row = ` <option name="department "value="${data[i].course_name}">${data[i].course_name}</option>`
+						      var row1 = ` <option name="department " value="${data[i].department}">${data[i].department}</option>`
+						      var row2 = ` <option name="department " value="${data[i].semester}">${data[i].semester}</option>`
+						      var row3 = ` <option name="department " value="${data[i].course_id}">${data[i].course_id}</option>`
+						      table.innerHTML +=row
+						      table1.innerHTML +=row1
+						      table2.innerHTML +=row2
+						      table3.innerHTML +=row3
+						}
+			}
+			
+			
+			async function getDept()
+			{
+				const api_url = "/collegemanagement/webapi/management/getdept";
+				var table = document.getElementById('dept');
+				var table1 = document.getElementById('select-dept');
+				const response = await fetch(api_url);
+				const data = await response.json();
+				console.log(data);
+					for(var i=0; i<data.length;i++)
+						{
+						      var row = ` <option name="dept" value="${data[i].department}">${data[i].department}</option>`
+						      var row1 = ` <option name="dept" value="${data[i].department}">${data[i].department}</option>`
+						      
+						      table.innerHTML +=row
+						      table1.innerHTML +=row1
+						}
+			}
+			
+			async function setTable()
+			{
+				const api_url = "/collegemanagement/webapi/management/g_a_teacher";
+				var table = document.getElementById('content');
+				const response = await fetch(api_url);
+				const data = await response.json();
+				console.log(data);
+					for(var i=0; i<data.length;i++)
+						{
+						var row = `
+					      	<tr>
+								<td>${data[i].tid}</td>
+								<td>${data[i].name}</td>
+								<td>${data[i].course_name}</td>
+								<td>${data[i].semester}</td>
+								<td>${data[i].department}</td>
+								
+						    </tr>`
+						      	
+						      table.innerHTML +=row
+						}
+			}
+			async function setTable2()
+			{
+				const api_url = "/collegemanagement/webapi/management/a_teacher";
+				var table = document.getElementById('content1');
+				const response = await fetch(api_url);
+				const data = await response.json();
+				console.log(data);
+					for(var i=0; i<data.length;i++)
+						{
+						var row = `
+					      	<tr>
+								<td>${data[i].tid}</td>
+								<td>${data[i].name}</td>
+								
+						    </tr>`
+						      	
+						      table.innerHTML +=row
+						}
+			}
+			function start()
+			{
+				setTable();
+				setTable2();
+				getDept();
+				getCourses();
+				//setCookie();
+				
+			}
+		</script>
+		<script type="text/javascript">
+		function changeEdit()
+        {
+        	var elem = document.getElementById("me");
+        	console.log(elem);
+            if (elem.value=='default') 
+            	{elem.value = 'edit';}
+            else elem.value = 'default';
+            
+            
+        }
+        function changeDelete()
+        {
+        	var elem = document.getElementById("md");
+            if (elem.value=="default") elem.value = "delete";
+            else elem.value = "default";
+        }
+		</script>
+	
+  </body>
+</html>
